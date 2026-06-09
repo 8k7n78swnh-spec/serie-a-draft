@@ -1463,7 +1463,7 @@ const playerDatabaseEU = [
             document.getElementById("start-cup-btn").addEventListener("click", startCupMode);
             // cup-play-btn: gestito via onclick dinamico in renderCupPreview/playCupMatch
             // cup-penalties-btn: gestito via onclick dinamico in _cupDrawPending
-            document.getElementById("pen-kick-btn").addEventListener("click", handlePenaltyKick);
+            // pen-kick-btn: gestito via onclick dinamico in startPenalties / startEuroPenalties
             
             document.getElementById("reset-btn").addEventListener("click", resetGame);
             document.getElementById("career-next-btn").addEventListener("click", startNextSeason);
@@ -3709,6 +3709,7 @@ const playerDatabaseEU = [
             gameState.cupBracket   = [];
             gameState.cupLeg1Score = null;
             gameState.penState     = null;
+            gameState.penFinalizeFn = null;
             gameState.playerStats  = {};  // reset stats per la coppa
             gameState.pendingPenOpp = null;
 
@@ -4168,9 +4169,6 @@ const playerDatabaseEU = [
             };
             document.getElementById("euro-penalties-btn").style.display = "none";
             document.getElementById("euro-penalties-btn").onclick = null;
-            document.getElementById("euro-penalties-btn").onclick = function(){
-                if(gameState.penFinalizeFn || gameState.penState) goToPenalties();
-            };
             document.getElementById("euro-preview-box").classList.remove("hidden");
             document.getElementById("euro-result-box").classList.add("hidden");
             let _emsb=document.getElementById("euro-match-stats-box"); if(_emsb) _emsb.classList.add("hidden");
@@ -4366,7 +4364,7 @@ const playerDatabaseEU = [
             let banner=document.getElementById("pen-result-banner");
             banner.className="hidden"; banner.innerText="";
             let btn=document.getElementById("pen-kick-btn");
-            btn.innerText=t("takePenalty"); btn.disabled=false;
+            btn.innerText="🥅 Batti Rigore"; btn.disabled=false;
             btn.onclick=function(){
                 handlePenaltyKick();
                 // Override _finalizePenalties to go back to euro
