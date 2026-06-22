@@ -75,15 +75,23 @@
         .roll-banner h2 { font-size: 1.4rem; font-weight: 900; font-family: 'Syne', sans-serif; color: #fff; letter-spacing: -0.5px; }
         .roll-banner span.era { font-size: 0.85rem; color: var(--bg-main); font-weight: 800; background: var(--accent-gold); padding: 3px 8px; border-radius: 4px;}
         
-        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; max-height: 400px; overflow-y: auto; padding-right: 5px; margin-bottom: 15px;}
-        .player-card { background: linear-gradient(160deg, var(--bg-input) 0%, #111827 100%); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 10px 6px; text-align: center; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 120px; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s; position:relative; overflow:hidden; }
-        .player-card:hover { border-color: var(--accent-gold); transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 24px rgba(207,181,59,0.2); }
-        .player-card.selected { border-color: var(--accent-gold); background: linear-gradient(160deg, rgba(207,181,59,0.18) 0%, rgba(207,181,59,0.06) 100%); box-shadow: 0 0 0 2px rgba(207,181,59,0.3), 0 8px 24px rgba(207,181,59,0.2); transform: translateY(-2px); }
-        .player-card.disabled-card { opacity: 0.3; cursor: not-allowed; pointer-events: none; filter: grayscale(80%);}
+        .cards-grid { display: flex; flex-direction: column; gap: 6px; max-height: 400px; overflow-y: auto; padding-right: 5px; margin-bottom: 15px; }
+        .player-card { background: #111827; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 0; cursor: pointer; display: flex; flex-direction: row; align-items: stretch; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s; position: relative; }
+        .player-card:hover { border-color: var(--accent-gold); transform: translateX(3px); box-shadow: 3px 0 12px rgba(207,181,59,0.2); }
+        .player-card.selected { border-color: var(--accent-gold); box-shadow: 0 0 0 2px rgba(207,181,59,0.3); }
+        .player-card.disabled-card { cursor: not-allowed; pointer-events: none; border-color: rgba(239,68,68,0.3); background: #0d131f; }
+        .player-card.disabled-card .card-ovr { filter: saturate(0.25) brightness(0.45); }
+        .player-card.disabled-card .card-name { color: #64748b; }
+        .player-card.disabled-card .card-roles { opacity: 0.4; }
         .player-card.duplicate { border-color: var(--accent-danger); opacity: 0.4; }
 
-        .card-ovr { font-size: 1.7rem; font-weight: 900; font-family: 'Syne', sans-serif; line-height: 1; margin-bottom: 2px; letter-spacing: -1px; }
-        .card-name { font-weight: 700; font-size: 0.75rem; margin-bottom: 4px; line-height: 1.1;}
+        .card-ovr { font-size: 1.35rem; font-weight: 900; font-family: 'Syne', sans-serif; line-height: 1; width: 62px; flex-shrink: 0; align-self: stretch; display: flex; align-items: center; justify-content: center; border-right: 1px solid rgba(255,255,255,0.07); border-radius: 9px 0 0 9px; background: rgba(148,163,184,0.15); color: #94a3b8; }
+        .card-ovr.icon  { background: rgba(59,130,246,0.35);  color: #93c5fd; }
+        .card-ovr.gold  { background: rgba(207,181,59,0.30);  color: var(--accent-gold); }
+        .card-ovr.silver{ background: rgba(148,163,184,0.18); color: #94a3b8; }
+        .card-ovr.bronze{ background: rgba(217,119,6,0.28);   color: #d97706; }
+        .card-name { flex: 1; min-width: 0; padding: 10px 14px; font-weight: 600; font-size: 0.85rem; line-height: 1.35; color: var(--text-main); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .card-roles { display: flex; flex-wrap: wrap; align-items: center; gap: 3px; padding: 8px 10px; flex-shrink: 0; max-width: 130px; border-left: 1px solid rgba(255,255,255,0.07); overflow: hidden; }
         .role-tag { font-size: 0.55rem; color: var(--text-main); background: var(--bg-main); border: 1px solid var(--card-border); padding: 2px 4px; border-radius: 4px; margin: 1px; display: inline-block; font-weight: 600;}
 
         /* Reroll badge */
@@ -476,6 +484,30 @@
         /* Reduced motion */
         @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}}
 
+        /* Jersey number on pitch slot */
+        .slot-jersey { position:absolute; top:3px; left:5px; font-size:0.52rem; font-weight:900; color:rgba(255,255,255,0.38); line-height:1; font-family:'Syne',sans-serif; }
+
+        /* Zone colors — empty slots */
+        .pitch-slot.zone-por:not(.filled):not(.active-target) { border-color:rgba(167,139,250,0.65); background:rgba(139,92,246,0.13); border-style:dashed; }
+        .pitch-slot.zone-def:not(.filled):not(.active-target) { border-color:rgba(96,165,250,0.65); background:rgba(59,130,246,0.11); border-style:dashed; }
+        .pitch-slot.zone-mid:not(.filled):not(.active-target) { border-color:rgba(251,191,36,0.6); background:rgba(234,179,8,0.10); border-style:dashed; }
+        .pitch-slot.zone-att:not(.filled):not(.active-target) { border-color:rgba(248,113,113,0.65); background:rgba(239,68,68,0.11); border-style:dashed; }
+
+        /* Zone tint — filled slots */
+        .pitch-slot.filled.zone-por { background:rgba(139,92,246,0.22); }
+        .pitch-slot.filled.zone-def { background:rgba(59,130,246,0.18); }
+        .pitch-slot.filled.zone-mid { background:rgba(234,179,8,0.15); }
+        .pitch-slot.filled.zone-att { background:rgba(239,68,68,0.18); }
+        /* Live match simulation */
+        .live-clock { font-size:0.85rem; font-weight:900; color:rgba(255,255,255,0.5); font-family:'Syne',sans-serif; letter-spacing:1px; display:block; margin-bottom:3px; }
+        .live-ev { font-size:0.74rem; padding:1px 0; color:var(--text-muted); }
+        .live-ev.g-u { color:var(--accent-green); font-weight:700; }
+        .live-ev.g-o { color:var(--accent-danger); font-weight:700; }
+        /* Odds rows in prediction screen */
+        .odds-mini { font-size:0.80rem; display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:1px solid var(--card-border); }
+        .odds-mini:last-child { border-bottom:none; }
+        .odds-pct { font-weight:800; font-family:'Syne',sans-serif; }
+
 </style>
     <script src="database.js"></script>
 </head>
@@ -636,6 +668,10 @@
                     <div class="data-row"><span>Posizione Stimata:</span> <strong id="pred-pos">--</strong></div>
                     <div class="data-row"><span>Goal Fatti / Subiti:</span> <strong id="pred-gfgs">--</strong></div>
                 </div>
+                <div class="info-box" id="pred-odds-box" style="margin-top:10px;display:none;">
+                    <h3>Quote Bookmakers</h3>
+                    <div id="pred-odds-rows"></div>
+                </div>
                 <div class="options-row">
                     <button id="sim-fast-btn" class="btn" style="background:var(--accent-blue);">Simulazione Rapida</button>
                     <button id="sim-match-btn" class="btn" style="background:var(--accent-green);">Gioca Giornata x Giornata</button>
@@ -651,6 +687,10 @@
                     <div class="data-row"><span>Primo avversario:</span> <strong id="cup-first-opp">--</strong></div>
                     <div class="data-row"><span>Formato:</span> <strong>Partita secca · Semifinale A/R</strong></div>
                     <div class="data-row"><span>Pareggio:</span> <strong>Lotteria dei Rigori</strong></div>
+                </div>
+                <div class="info-box" style="margin-top:10px;">
+                    <h3>Percorso Previsto</h3>
+                    <div id="cup-odds-rows"></div>
                 </div>
                 <button id="start-cup-btn" class="btn" style="margin-top:10px;">🥇 Inizia Coppa Italia</button>
             </div>
@@ -928,6 +968,7 @@
                 <div class="match-stats-grid" id="euro-match-stats-inner"></div>
             </div>
             </div>
+            <div id="euro-preview-odds" style="display:none;margin:8px 0 4px;"></div>
             <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;">
                 <button id="euro-play-btn" class="btn btn-blue" style="max-width:280px;">⚽ Gioca Partita</button>
                 <button id="euro-penalties-btn" class="btn" style="max-width:280px;display:none;">🥅 Vai ai Rigori</button>
@@ -1517,9 +1558,10 @@ const playerDatabaseEU = [
 
             gameState.slots.forEach(slot => {
                 const div = document.createElement("div");
-                div.className = "pitch-slot"; div.id = `slot-${slot.id}`;
+                const zoneClass = slot.pos === "POR" ? "zone-por" : slot.zone === "DEF" ? "zone-def" : slot.zone === "MID" ? "zone-mid" : "zone-att";
+                div.className = "pitch-slot " + zoneClass; div.id = `slot-${slot.id}`;
                 div.style.left = `${slot.x}%`; div.style.top = `${slot.y}%`;
-                div.innerHTML = `<div style="font-weight:900; font-size: 1.2rem;">+</div><div class="slot-pos-tag">${slot.pos}</div>`;
+                div.innerHTML = `<div class="slot-jersey">${slot.id}</div><div style="font-weight:900; font-size: 1.2rem;">+</div><div class="slot-pos-tag">${slot.pos}</div>`;
                 div.addEventListener("click", () => assignPlayerToSlot(slot.id));
                 container.appendChild(div);
             });
@@ -1729,7 +1771,7 @@ const playerDatabaseEU = [
                     rolesHTML = player.roles.map(r => `<span class="role-tag">${r}</span>`).join("");
                 }
 
-                card.innerHTML = `<div><div class="card-ovr ${colorClass}">${displayOvr}</div><div class="card-name">${player.name}</div></div><div>${rolesHTML}</div>`;
+                card.innerHTML = `<div class="card-ovr ${colorClass}">${displayOvr}</div><div class="card-name">${player.name}</div><div class="card-roles">${rolesHTML}</div>`;
                 container.appendChild(card);
             });
         }
@@ -1815,7 +1857,7 @@ const playerDatabaseEU = [
             if (finalPlayer.outOfPos) el.style.borderColor = "var(--accent-danger)";
             let displayOvr = gameState.mode === "easy" ? slot.player.ovr : "??";
             let color = finalPlayer.outOfPos ? "var(--accent-danger)" : getOvrColor(slot.player.ovr);
-            el.innerHTML = `<div class="slot-ovr" style="color: ${color}">${displayOvr}</div><div class="slot-name">${slot.player.name}</div>`;
+            el.innerHTML = `<div class="slot-jersey">${slot.id}</div><div class="slot-ovr" style="color: ${color}">${displayOvr}</div><div class="slot-name">${slot.player.name}</div>`;
 
             document.querySelectorAll(".pitch-slot").forEach(s => s.classList.remove("active-target"));
             updateLiveStats();
@@ -1885,7 +1927,28 @@ const playerDatabaseEU = [
             safeSet("pred-rec", `${w}V - ${d}P - ${l}S`);
             safeSet("pred-pos", pos === 1 ? "1° Posto (Scudetto)" : `${pos}° Posto`);
             safeSet("pred-gfgs", `${gf} Fatti / ${gs} Subiti`);
-            
+
+            // Quote bookmakers
+            let scudettoOdds = pts>=88?95:pts>=78?75:pts>=68?40:pts>=58?15:pts>=42?5:1;
+            let top4Odds = pts>=78?95:pts>=68?80:pts>=58?58:pts>=42?30:pts>=30?12:4;
+            let europeOdds = pts>=68?98:pts>=58?88:pts>=42?60:pts>=30?35:15;
+            let salvezzaOdds = pts>=42?99:pts>=30?88:pts>=20?65:38;
+            function _oddsColor(p){ return p>=70?"var(--accent-green)":p>=40?"var(--accent-gold)":"var(--accent-danger)"; }
+            // Probabilità 38-0: usa win rate previsto con piccolo boost ottimistico
+            let winProb38 = Math.min(0.98, Math.max(0.30, w / 38 + 0.06));
+            let rawPerf = Math.pow(winProb38, 38);
+            let perfStr = rawPerf >= 0.01 ? (rawPerf*100).toFixed(1)+"%" : rawPerf >= 0.001 ? (rawPerf*100).toFixed(2)+"%" : "<0.1%";
+            let perfColor = rawPerf >= 0.05 ? "var(--accent-green)" : rawPerf >= 0.005 ? "var(--accent-gold)" : "var(--accent-danger)";
+            let oddsHtml = `
+                <div class="odds-mini"><span>🏆 Scudetto</span><span class="odds-pct" style="color:${_oddsColor(scudettoOdds)}">${scudettoOdds}%</span></div>
+                <div class="odds-mini"><span>🇪🇺 Champions League (Top 4)</span><span class="odds-pct" style="color:${_oddsColor(top4Odds)}">${top4Odds}%</span></div>
+                <div class="odds-mini"><span>🟠 Europa League (Top 7)</span><span class="odds-pct" style="color:${_oddsColor(europeOdds)}">${europeOdds}%</span></div>
+                <div class="odds-mini"><span>✅ Salvezza</span><span class="odds-pct" style="color:${_oddsColor(salvezzaOdds)}">${salvezzaOdds}%</span></div>
+                <div class="odds-mini" style="border-top:1px solid var(--card-border);margin-top:4px;padding-top:6px;"><span>⭐ Stagione Perfetta (38-0)</span><span class="odds-pct" style="color:${perfColor}">${perfStr}</span></div>
+                <div style="font-size:0.68rem;color:var(--text-muted);margin-top:6px;">OVR medio squadra: ${Math.round(baseRating)}</div>`;
+            let oddsBox = document.getElementById("pred-odds-box");
+            if(oddsBox){ oddsBox.style.display=""; safeSet("pred-odds-rows", oddsHtml, true); }
+
             // Le europee sono avviate automaticamente dal flusso carriera (no tasto manuale)
             // In modalità carriera, la stagione inizia SEMPRE con il campionato
             let _showCup = gameState.competition === 'cup';
@@ -1898,6 +1961,24 @@ const playerDatabaseEU = [
                 document.getElementById("pred-cup-content").classList.remove("hidden");
                 prepareCup();
                 safeSet("cup-first-opp", gameState.cupOpponents[0] ? gameState.cupOpponents[0].name : "--");
+                // Calcola odds coppa per turno
+                (function() {
+                    let uOvr = userOvrAvg();
+                    function _wProb(uO, oO){ return Math.max(5, Math.min(95, Math.round(50 + (uO-oO)*2.2))); }
+                    let rounds = ["16esimi","Ottavi","Quarti","Semifinale","Finale","🏆 Vittoria Coppa"];
+                    let opps = gameState.cupOpponents || [];
+                    let cumP = 1;
+                    let html = "";
+                    rounds.forEach(function(rName, i) {
+                        let oppOvr = opps[i] ? opps[i].ovr : uOvr - 2 + Math.random()*6;
+                        let wp = _wProb(uOvr, oppOvr) / 100;
+                        cumP *= wp;
+                        let pct = Math.round(cumP * 100);
+                        let col = pct>=70?"var(--accent-green)":pct>=40?"var(--accent-gold)":"var(--accent-danger)";
+                        html += `<div class="odds-mini"><span>${rName}</span><span class="odds-pct" style="color:${col}">${pct}%</span></div>`;
+                    });
+                    safeSet("cup-odds-rows", html, true);
+                })();
             } else {
                 document.getElementById("pred-league-content").classList.remove("hidden");
                 document.getElementById("pred-cup-content").classList.add("hidden");
@@ -2084,6 +2165,7 @@ const playerDatabaseEU = [
             let msb = document.getElementById("match-stats-box"); if(msb) msb.classList.add("hidden");
             
             const btn = document.getElementById("play-next-btn");
+            btn.style.display = "";
             btn.innerText = "⚽ Gioca Partita";
             btn.onclick = null;
             btn.onclick = handleMatchButtonClick;
@@ -2120,7 +2202,7 @@ const playerDatabaseEU = [
 
             let userTeam = gameState.leagueTeams[0];
             userTeam.gf += gUser; userTeam.gs += gOpp; m.opp.gf += gOpp; m.opp.gs += gUser;
-            
+
             let userRoster = gameState.slots.map(s => s.player).filter(p=>p);
             let oppRoster = playerDatabase.filter(p => p.team+"||"+p.era === m.opp.id);
             let userScorers = getGoalscorers(userRoster, gUser);
@@ -2131,39 +2213,153 @@ const playerDatabaseEU = [
             else if (gUser === gOpp) { userTeam.pts+=1; m.opp.pts+=1; userTeam.d++; m.opp.d++; gameState.matchLogs.unshift({txt:`Pareggio ${gUser}-${gOpp} vs ${m.opp.name}`, cls:'draw'}); }
             else { m.opp.pts+=3; userTeam.l++; m.opp.w++; gameState.matchLogs.unshift({txt:`Sconfitta ${gUser}-${gOpp} vs ${m.opp.name}`, cls:'loss'}); }
 
-            document.getElementById("score-user").style.color = gUser > gOpp ? "var(--accent-green)" : (gUser === gOpp ? "var(--accent-gold)" : "var(--accent-danger)");
-            document.getElementById("score-opp").style.color = gOpp > gUser ? "var(--accent-green)" : (gUser === gOpp ? "var(--accent-gold)" : "var(--accent-danger)");
-
-            safeSet("score-user", gUser); safeSet("score-opp", gOpp); if(gUser>0) animateScore("score-user"); if(gOpp>0) animateScore("score-opp");
-            safeSet("scorers-user", formatScorers(userScorers), true);
-            safeSet("scorers-opp", formatScorers(oppScorers), true);
-
-            // Statistiche partita dettagliate
-            let uTeamOvr = gameState.slots.map(s=>s.player).filter(p=>p).reduce((s,p)=>s+p.ovr,0)/(gameState.slots.length||1);
-            let oTeamOvr = (userTeam.pts > 0 ? uTeamOvr * 0.95 : uTeamOvr * 1.05); // approssimazione
+            let uTeamOvr = userRoster.reduce((s,p)=>s+p.ovr,0)/(userRoster.length||1);
+            let oTeamOvr = uTeamOvr * 0.95 + (Math.random()-0.5)*4;
             let mStats = simMatchStats(gUser, gOpp, uTeamOvr, oTeamOvr);
-            renderMatchStats(mStats, gameState.teamName, m.opp.name);
-
-            let logHtml = "";
-            gameState.matchLogs.slice(0,6).forEach(lg => { logHtml += `<div class="log-item ${lg.cls}">${lg.txt}</div>`; });
-            safeSet("match-log", logHtml, true);
 
             gameState.currentMatchIndex++;
             gameState.matchPhase = "played";
-            const btn = document.getElementById("play-next-btn");
-            btn.innerText = gameState.currentMatchIndex >= 38 ? "🏆 Vedi Risultati" : "➡️ Prossima Giornata";
-            btn.onclick = null;
-            btn.onclick = handleMatchButtonClick;
+
+            // Nascondi pulsante e statistiche, avvia simulazione live
+            let btn = document.getElementById("play-next-btn");
+            btn.style.display = "none";
+            let msb = document.getElementById("match-stats-box"); if(msb) msb.classList.add("hidden");
+            document.getElementById("score-user").style.color = "var(--text-main)";
+            document.getElementById("score-opp").style.color = "var(--text-main)";
+            safeSet("scorers-user", "", true); safeSet("scorers-opp", "", true);
+
+            let {bar, clock, feed} = _injectLiveBar("match-stats-box");
+
+            _runMatchLive({
+                userScorers: userScorers, oppScorers: oppScorers,
+                clockEl: clock, feedEl: feed,
+                scoreUserId: "score-user", scoreOppId: "score-opp",
+                userTeamName: gameState.teamName, oppName: m.opp.name,
+                onDone: function(fU, fO) {
+                    if(bar) bar.remove();
+                    document.getElementById("score-user").style.color = fU>fO?"var(--accent-green)":fU===fO?"var(--accent-gold)":"var(--accent-danger)";
+                    document.getElementById("score-opp").style.color = fO>fU?"var(--accent-green)":fU===fO?"var(--accent-gold)":"var(--accent-danger)";
+                    safeSet("scorers-user", formatScorers(userScorers), true);
+                    safeSet("scorers-opp", formatScorers(oppScorers), true);
+                    renderMatchStats(mStats, gameState.teamName, m.opp.name);
+                    let msb2=document.getElementById("match-stats-box"); if(msb2) msb2.classList.remove("hidden");
+                    let logHtml=""; gameState.matchLogs.slice(0,6).forEach(lg=>{ logHtml+=`<div class="log-item ${lg.cls}">${lg.txt}</div>`; });
+                    safeSet("match-log", logHtml, true);
+                    // Auto-avanzamento dopo 2 secondi di pausa sui risultati
+                    setTimeout(function() {
+                        let msb3=document.getElementById("match-stats-box"); if(msb3) msb3.classList.add("hidden");
+                        if(gameState.currentMatchIndex >= 38) {
+                            goToResults();
+                        } else {
+                            let nextM = gameState.calendar[gameState.currentMatchIndex];
+                            safeSet("match-week-lbl", "GIORNATA "+(gameState.currentMatchIndex+1)+" di 38");
+                            safeSet("match-opp-lbl", nextM.opp.name + (!nextM.home?" (Trasferta)":""));
+                            safeSet("match-user-team-name", gameState.teamName);
+                            document.getElementById("score-user").style.color="var(--text-main)";
+                            document.getElementById("score-opp").style.color="var(--text-main)";
+                            safeSet("score-user","-"); safeSet("score-opp","-");
+                            safeSet("scorers-user","",true); safeSet("scorers-opp","",true);
+                            setTimeout(function(){ processCurrentMatch(); }, 600);
+                        }
+                    }, 2000);
+                }
+            });
         }
 
+        // ─── LIVE MATCH HELPERS ───────────────────────────────────────────────
+        function _injectLiveBar(insertBeforeElId) {
+            let ref = document.getElementById(insertBeforeElId);
+            if (!ref || !ref.parentNode) return {bar:null, clock:null, feed:null};
+            let bar = document.createElement('div');
+            bar.style.cssText = 'text-align:center;padding:4px 0 6px;';
+            let clock = document.createElement('div');
+            clock.className = 'live-clock';
+            clock.innerText = "0'";
+            bar.appendChild(clock);
+            let feed = document.createElement('div');
+            feed.style.cssText = 'max-height:64px;overflow-y:auto;text-align:left;padding:2px 8px;margin-top:3px;';
+            bar.appendChild(feed);
+            ref.parentNode.insertBefore(bar, ref);
+            gameState._liveBar = bar;
+            return {bar, clock, feed};
+        }
+
+        function _runMatchLive(opts) {
+            // opts: { userScorers, oppScorers, clockEl, feedEl, scoreUserId, scoreOppId,
+            //         userTeamName, oppName, onDone(finalU, finalO) }
+            function rMin(lo, hi){ return lo + Math.floor(Math.random()*(hi-lo+1)); }
+            let events = [];
+            opts.userScorers.forEach(n => events.push({min:rMin(2,88), goal:true, user:true, name:n}));
+            opts.oppScorers.forEach(n => events.push({min:rMin(2,88), goal:true, user:false, name:n}));
+            let misc = ['Tiro fuori!','Parata!','Corner!','Fuorigioco!','Punizione pericolosa!','Palo!','Gran parata!'];
+            for(let i=0;i<5;i++) events.push({min:rMin(5,85),goal:false,user:Math.random()>0.5,text:misc[i%misc.length]});
+            events.sort((a,b)=>a.min-b.min);
+            // Score finali pre-calcolati (i goal sono sempre tutti i scorers)
+            let finalU = opts.userScorers.length, finalO = opts.oppScorers.length;
+            let uNow=0, oNow=0, evIdx=0, min=0;
+            let uEl=document.getElementById(opts.scoreUserId), oEl=document.getElementById(opts.scoreOppId);
+            if(uEl) uEl.innerText='0'; if(oEl) oEl.innerText='0';
+
+            // Bottone salta partita
+            let skipBtn = document.createElement('button');
+            skipBtn.textContent = '⏭ Salta';
+            skipBtn.style.cssText = 'margin-top:5px;font-size:0.72rem;padding:3px 12px;border-radius:6px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.5);cursor:pointer;display:block;margin-left:auto;margin-right:auto;';
+            skipBtn.onclick = function() {
+                clearInterval(tid);
+                gameState._liveTimer = null;
+                skipBtn.style.display = 'none';
+                if(uEl) uEl.innerText = finalU; if(oEl) oEl.innerText = finalO;
+                opts.onDone(finalU, finalO);
+            };
+            if(gameState._liveBar) gameState._liveBar.appendChild(skipBtn);
+
+            let tid = setInterval(function() {
+                min++;
+                if(opts.clockEl) opts.clockEl.innerText = min < 90 ? min+"'" : "90'";
+                while(evIdx < events.length && events[evIdx].min <= min) {
+                    let ev = events[evIdx++];
+                    let row = document.createElement('div');
+                    if(ev.goal) {
+                        if(ev.user){ uNow++; if(uEl){uEl.innerText=uNow; animateScore(opts.scoreUserId);} }
+                        else{ oNow++; if(oEl){oEl.innerText=oNow; animateScore(opts.scoreOppId);} }
+                        row.className = 'live-ev '+(ev.user?'g-u':'g-o');
+                        row.textContent = '⚽ '+min+"' "+ev.name;
+                    } else {
+                        row.className = 'live-ev';
+                        let tm = ev.user?(opts.userTeamName||''):(opts.oppName||'');
+                        row.textContent = min+"' "+(tm?tm+': ':'')+ev.text;
+                    }
+                    if(opts.feedEl){ opts.feedEl.appendChild(row); opts.feedEl.scrollTop=opts.feedEl.scrollHeight; }
+                }
+                if(min >= 90) {
+                    clearInterval(tid);
+                    gameState._liveTimer = null;
+                    skipBtn.style.display = 'none';
+                    setTimeout(function(){ opts.onDone(finalU, finalO); }, 2500);
+                }
+            }, 80);
+            gameState._liveTimer = tid;
+            return tid;
+        }
+        // ─────────────────────────────────────────────────────────────────────
+
         function skipAllMatches() {
+            if(gameState._liveTimer){ clearInterval(gameState._liveTimer); gameState._liveTimer=null; }
+            if(gameState._liveBar){ gameState._liveBar.remove(); gameState._liveBar=null; }
+            let btn=document.getElementById("play-next-btn"); if(btn) btn.style.display="";
+            function _mg(type) {
+                let rn = Math.random();
+                if(type==="win_gf") return rn<0.20?1:rn<0.40?2:rn<0.65?2:rn<0.80?3:rn<0.92?3:4;
+                if(type==="win_gs") return rn<0.50?0:rn<0.80?1:2;
+                if(type==="draw")   return rn<0.15?0:rn<0.65?1:rn<0.95?2:3;
+                return 0;
+            }
             while(gameState.currentMatchIndex < 38) {
                 let m = gameState.calendar[gameState.currentMatchIndex];
                 let gUser = 0, gOpp = 0;
-                // Goals coerenti con il risultato predetto
-                if (m.res === 'W') { gUser = Math.floor(Math.random()*2)+1; gOpp = Math.max(0, gUser - Math.floor(Math.random()*2)-1); }
-                else if (m.res === 'D') { gUser = Math.floor(Math.random()*2)+0; gOpp = gUser; }
-                else { gOpp = Math.floor(Math.random()*2)+1; gUser = Math.max(0, gOpp - Math.floor(Math.random()*2)-1); }
+                if (m.res === 'W') { gUser = _mg("win_gf"); gOpp = _mg("win_gs"); if(gOpp>=gUser) gOpp=gUser-1; }
+                else if (m.res === 'D') { gUser = _mg("draw"); gOpp = gUser; }
+                else { gOpp = _mg("win_gf"); gUser = _mg("win_gs"); if(gUser>=gOpp) gUser=gOpp-1; }
                 
                 let userTeam = gameState.leagueTeams[0];
                 userTeam.gf += gUser; userTeam.gs += gOpp; m.opp.gf += gOpp; m.opp.gs += gUser;
@@ -2528,56 +2724,69 @@ const playerDatabaseEU = [
 
             let uSc=getGoalscorers(userRoster,gU);
             let oSc=getGoalscorers(oppRoster, gO);
-            // Gol regolari (non rigori) → contati per capocannoniere
             addGoals(uSc, true); addGoals(oSc, false);
+            let _ms = simMatchStats(gU, gO, uOvr, opp.ovr);
 
-            // Mostra risultato
+            // Mostra subito il result-box con punteggio a zero
             document.getElementById("cup-preview-box").classList.add("hidden");
             document.getElementById("cup-result-box").classList.remove("hidden");
             safeSet("cup-opp-name", opp.name);
-            let cu=gU>gO?"var(--accent-green)":gU===gO?"var(--accent-gold)":"var(--accent-danger)";
-            let co=gO>gU?"var(--accent-green)":gU===gO?"var(--accent-gold)":"var(--accent-danger)";
-            document.getElementById("cup-score-user").style.color=cu;
-            document.getElementById("cup-score-opp").style.color=co;
-            safeSet("cup-score-user",gU); safeSet("cup-score-opp",gO);
-            if(gU>0) animateScore("cup-score-user"); if(gO>0) animateScore("cup-score-opp");
-            safeSet("cup-scorers-user",formatScorers(uSc),true);
-            safeSet("cup-scorers-opp", formatScorers(oSc),true);
+            document.getElementById("cup-score-user").style.color="var(--text-main)";
+            document.getElementById("cup-score-opp").style.color="var(--text-main)";
+            safeSet("cup-score-user","0"); safeSet("cup-score-opp","0");
+            safeSet("cup-scorers-user","",true); safeSet("cup-scorers-opp","",true);
+            safeSet("cup-result-msg","",true);
+            document.getElementById("cup-play-btn").style.display="none";
+            document.getElementById("cup-penalties-btn").style.display="none";
 
-            // Statistiche partita
-            let _ms = simMatchStats(gU, gO, uOvr, opp.ovr);
-            _renderMatchStatsCup(_ms);
+            // Simulazione live
+            let {bar, clock, feed} = _injectLiveBar("cup-match-stats-box");
 
-            let roundName = gameState.cupRounds[gameState.cupRoundIdx];
-            let isSemiA   = gameState.cupRoundIdx===3;
-            let isSemiR   = gameState.cupRoundIdx===4;
+            _runMatchLive({
+                userScorers:uSc, oppScorers:oSc,
+                clockEl:clock, feedEl:feed,
+                scoreUserId:"cup-score-user", scoreOppId:"cup-score-opp",
+                userTeamName:gameState.teamName, oppName:opp.name,
+                onDone: function(fU, fO) {
+                    if(bar) bar.remove();
+                    let cu=fU>fO?"var(--accent-green)":fU===fO?"var(--accent-gold)":"var(--accent-danger)";
+                    let co=fO>fU?"var(--accent-green)":fU===fO?"var(--accent-gold)":"var(--accent-danger)";
+                    document.getElementById("cup-score-user").style.color=cu;
+                    document.getElementById("cup-score-opp").style.color=co;
+                    safeSet("cup-scorers-user",formatScorers(uSc),true);
+                    safeSet("cup-scorers-opp",formatScorers(oSc),true);
+                    _renderMatchStatsCup(_ms);
+                    document.getElementById("cup-play-btn").style.display="";
 
-            if (isSemiA) {
-                // Andata: salva, nessuna eliminazione
-                gameState.cupLeg1Score={u:gU,o:gO};
-                gameState.cupBracket.push({round:roundName,opp:opp.name,score:gU+"-"+gO,won:true,pen:false,isAndata:true});
-                safeSet("cup-result-msg",'<span style="color:var(--accent-gold);">Andata completata. Si torna in campo per il ritorno.</span>',true);
-                renderCupBracket();
-                let pb=document.getElementById("cup-play-btn");
-                pb.innerText="➡️ Vai al Ritorno"; pb.style.background="linear-gradient(135deg,#334155,#1e293b)";
-                document.getElementById("cup-penalties-btn").style.display="none";
-                gameState.cupPhase="played_semi_andata";
+                    let roundName = gameState.cupRounds[gameState.cupRoundIdx];
+                    let isSemiA   = gameState.cupRoundIdx===3;
+                    let isSemiR   = gameState.cupRoundIdx===4;
 
-            } else if (isSemiR) {
-                let l1=gameState.cupLeg1Score||{u:0,o:0};
-                let aggU=l1.u+gU, aggO=l1.o+gO;
-                let ab=document.getElementById("cup-aggregate-box");
-                ab.classList.remove("hidden");
-                ab.innerHTML="Aggregato: Tua Squadra <strong>"+aggU+"</strong> – <strong>"+aggO+"</strong> "+opp.name;
-                if      (aggU>aggO) _cupAdvance(opp,gU+"-"+gO+" (agg."+aggU+"-"+aggO+")",false);
-                else if (aggU<aggO) _cupEliminated(opp,gU+"-"+gO+" (agg."+aggU+"-"+aggO+")");
-                else                _cupDrawPending(opp,roundName,gU+"-"+gO);
-
-            } else {
-                if      (gU>gO) _cupAdvance(opp,gU+"-"+gO,false);
-                else if (gU<gO) _cupEliminated(opp,gU+"-"+gO);
-                else            _cupDrawPending(opp,roundName,gU+"-"+gO);
-            }
+                    if (isSemiA) {
+                        gameState.cupLeg1Score={u:fU,o:fO};
+                        gameState.cupBracket.push({round:roundName,opp:opp.name,score:fU+"-"+fO,won:true,pen:false,isAndata:true});
+                        safeSet("cup-result-msg",'<span style="color:var(--accent-gold);">Andata completata. Si torna in campo per il ritorno.</span>',true);
+                        renderCupBracket();
+                        let pb=document.getElementById("cup-play-btn");
+                        pb.innerText="➡️ Vai al Ritorno"; pb.style.background="linear-gradient(135deg,#334155,#1e293b)";
+                        document.getElementById("cup-penalties-btn").style.display="none";
+                        gameState.cupPhase="played_semi_andata";
+                    } else if (isSemiR) {
+                        let l1=gameState.cupLeg1Score||{u:0,o:0};
+                        let aggU=l1.u+fU, aggO=l1.o+fO;
+                        let ab=document.getElementById("cup-aggregate-box");
+                        ab.classList.remove("hidden");
+                        ab.innerHTML="Aggregato: Tua Squadra <strong>"+aggU+"</strong> – <strong>"+aggO+"</strong> "+opp.name;
+                        if      (aggU>aggO) _cupAdvance(opp,fU+"-"+fO+" (agg."+aggU+"-"+aggO+")",false);
+                        else if (aggU<aggO) _cupEliminated(opp,fU+"-"+fO+" (agg."+aggU+"-"+aggO+")");
+                        else                _cupDrawPending(opp,roundName,fU+"-"+fO);
+                    } else {
+                        if      (fU>fO) _cupAdvance(opp,fU+"-"+fO,false);
+                        else if (fU<fO) _cupEliminated(opp,fU+"-"+fO);
+                        else            _cupDrawPending(opp,roundName,fU+"-"+fO);
+                    }
+                }
+            });
         }
 
         // Parità → mostra risultato + tasto "Vai ai Rigori" (NON va subito ai rigori)
@@ -3522,7 +3731,7 @@ const playerDatabaseEU = [
                 let rolesHTML = gameState.mode === "easy"
                     ? (player.roles || []).map(r => `<span class="role-tag">${r}</span>`).join("")
                     : "??";
-                card.innerHTML = `<div><div class="card-ovr ${colorClass}">${displayOvr}</div><div class="card-name">${player.name}</div></div><div>${rolesHTML}</div>`;
+                card.innerHTML = `<div class="card-ovr ${colorClass}">${displayOvr}</div><div class="card-name">${player.name}</div><div class="card-roles">${rolesHTML}</div>`;
                 if (!alreadyIn) {
                     card.addEventListener("click", () => _interPickPlayer(player, card));
                 }
@@ -3613,7 +3822,7 @@ const playerDatabaseEU = [
             if (el) {
                 el.classList.remove("active-target"); el.classList.add("filled");
                 let color = getOvrColor(slot.player.ovr);
-                el.innerHTML = "<div class='slot-ovr' style='color:" + color + "'>"
+                el.innerHTML = "<div class='slot-jersey'>" + slot.id + "</div><div class='slot-ovr' style='color:" + color + "'>"
                     + (gameState.mode === "easy" ? slot.player.ovr : "??")
                     + "</div><div class='slot-name'>" + slot.player.name + "</div>";
                 animateSlotPlace(slot.id);
@@ -4156,11 +4365,10 @@ const playerDatabaseEU = [
 
             renderEuroBracket();
 
-            // Reset btn
+            // Reset btn — pulisce tutti gli stili inline residui da round precedenti
             let btn = document.getElementById("euro-play-btn");
+            btn.style.cssText = "";
             btn.innerText = "⚽ Gioca Partita";
-            btn.style.background = "linear-gradient(135deg,var(--accent-blue),#2563eb)";
-            btn.style.display = "";
             btn.disabled = false;
             btn.onclick = null;
             btn.onclick = function() {
@@ -4175,6 +4383,36 @@ const playerDatabaseEU = [
             let _rb0=document.getElementById("euro-riepilogo-btn"); if(_rb0) _rb0.style.display="none";
             window._euroRiepilogoFn=null;
             gameState.euroPhase = "preview";
+
+            // Quote europee
+            (function() {
+                let oddsEl = document.getElementById("euro-preview-odds");
+                if (!oddsEl) return;
+                let uOvr = userOvrAvg();
+                let baseBoost = gameState.euroCompClass==="cl"?7:gameState.euroCompClass==="el"?4:2;
+                let remainingRounds = gameState.euroRounds.slice(gameState.euroRoundIdx);
+                let uniquePhases = []; // one entry per phase (collapsing andata+ritorno)
+                for(let i=0;i<remainingRounds.length;i++){
+                    let r=remainingRounds[i];
+                    if(r.endsWith("- Ritorno")) continue;
+                    uniquePhases.push(r.replace(" - Andata",""));
+                }
+                let cumP=1;
+                let html="<div style='font-size:0.75rem;font-weight:800;color:var(--text-muted);margin-bottom:6px;'>PROBABILITÀ DI AVANZAMENTO</div>";
+                uniquePhases.forEach(function(phaseName, idx) {
+                    let oppOvr = (opp ? opp.ovr : uOvr) + baseBoost + Math.random()*3;
+                    let wp = Math.max(5, Math.min(90, Math.round(50 + (uOvr - oppOvr) * 2)));
+                    cumP *= wp/100;
+                    let pct = Math.round(cumP*100);
+                    let col = pct>=60?"var(--accent-green)":pct>=30?"var(--accent-gold)":"var(--accent-danger)";
+                    let isLast = (idx === uniquePhases.length-1);
+                    let label = isLast ? "🏆 Vittoria "+gameState.euroCompName : phaseName;
+                    let sep = isLast ? "border-top:1px solid var(--card-border);margin-top:4px;padding-top:6px;" : "";
+                    html += `<div class="odds-mini" style="${sep}"><span>${label}</span><span class="odds-pct" style="color:${col}">${pct}%</span></div>`;
+                });
+                oddsEl.innerHTML = html;
+                oddsEl.style.display = "";
+            })();
         }
         function renderEuroBracket() {
             let h = "";
@@ -4215,12 +4453,10 @@ const playerDatabaseEU = [
             let roundName = gameState.euroRounds[gameState.euroRoundIdx] || "Finale";
             let isAndata  = roundName.endsWith("- Andata");
             let isRitorno = roundName.endsWith("- Ritorno");
-            let isFinale  = roundName === "Finale";
 
             let userRoster = gameState.slots.map(s=>s.player).filter(p=>p);
             let oppRoster  = playerDatabaseEU.filter(p=>p.team+"||"+p.era===opp.id);
             let uOvr = userRoster.reduce((s,p)=>s+p.ovr,0)/(userRoster.length||1);
-            // CL molto più difficile: boost OVR avversari
             let oppBoost = gameState.euroCompClass === "cl" ? 6 :
                            gameState.euroCompClass === "el" ? 3 : 1;
             let effOppOvr = opp.ovr + oppBoost;
@@ -4230,61 +4466,72 @@ const playerDatabaseEU = [
             let uSc=getGoalscorers(userRoster,gU);
             let oSc=getGoalscorers(oppRoster,gO);
             addGoals(uSc,true); addGoals(oSc,false);
+            let _ems = simMatchStats(gU, gO, uOvr, effOppOvr||opp.ovr);
 
-            // Show scoreboard
+            // Mostra subito la schermata risultato con punteggio a zero
             document.getElementById("euro-preview-box").classList.add("hidden");
             document.getElementById("euro-result-box").classList.remove("hidden");
-            safeSet("euro-opp-name",        opp.name);
-            safeSet("euro-score-user-name",  gameState.teamName);
-            let cu=gU>gO?"var(--accent-green)":gU===gO?"var(--accent-gold)":"var(--accent-danger)";
-            let co=gO>gU?"var(--accent-green)":gU===gO?"var(--accent-gold)":"var(--accent-danger)";
-            document.getElementById("euro-score-user").style.color=cu;
-            document.getElementById("euro-score-opp").style.color=co;
-            safeSet("euro-score-user",gU); safeSet("euro-score-opp",gO);
-            safeSet("euro-scorers-user",formatScorers(uSc),true);
-            safeSet("euro-scorers-opp", formatScorers(oSc),true);
+            safeSet("euro-opp-name", opp.name);
+            safeSet("euro-score-user-name", gameState.teamName);
+            document.getElementById("euro-score-user").style.color="var(--text-main)";
+            document.getElementById("euro-score-opp").style.color="var(--text-main)";
+            safeSet("euro-score-user","0"); safeSet("euro-score-opp","0");
+            safeSet("euro-scorers-user","",true); safeSet("euro-scorers-opp","",true);
+            safeSet("euro-result-msg","",true);
+            let ebtn=document.getElementById("euro-play-btn");
+            ebtn.style.display="none"; ebtn.disabled=true;
+            document.getElementById("euro-penalties-btn").style.display="none";
 
-            // Statistiche partita europea
-            let _ems = simMatchStats(gU, gO, uOvr, effOppOvr||opp.ovr);
-            _renderMatchStatsEuro(_ems);
+            let {bar, clock, feed} = _injectLiveBar("euro-match-stats-box");
 
-            if (isAndata) {
-                // Salva risultato andata, mostra btn ritorno
-                gameState.euroLeg1Score = {u:gU, o:gO};
-                gameState.euroBracket.push({round:roundName, opp:opp.name, score:gU+"-"+gO, won:true, pen:false, isAndata:true});
-                renderEuroBracket();
-                safeSet("euro-result-msg", "<span style='color:var(--accent-gold);'>Andata completata. Si torna per il ritorno.</span>", true);
-                let btn=document.getElementById("euro-play-btn");
-                btn.innerText="➡️ Vai al Ritorno";
-                btn.style.cssText="background:linear-gradient(135deg,var(--accent-blue),#2563eb);color:#fff;display:block;opacity:1;padding:14px 20px;border-radius:10px;font-weight:800;font-size:1rem;cursor:pointer;width:100%;border:none;";
-                btn.disabled=false;
-                btn.onclick=null;
-                btn.onclick=function(){ btn.disabled=true; gameState.euroRoundIdx++; renderEuroMatch(); };
-                document.getElementById("euro-penalties-btn").style.display="none";
+            _runMatchLive({
+                userScorers:uSc, oppScorers:oSc,
+                clockEl:clock, feedEl:feed,
+                scoreUserId:"euro-score-user", scoreOppId:"euro-score-opp",
+                userTeamName:gameState.teamName, oppName:opp.name,
+                onDone: function(fU, fO) {
+                    if(bar) bar.remove();
+                    let cu=fU>fO?"var(--accent-green)":fU===fO?"var(--accent-gold)":"var(--accent-danger)";
+                    let co=fO>fU?"var(--accent-green)":fU===fO?"var(--accent-gold)":"var(--accent-danger)";
+                    document.getElementById("euro-score-user").style.color=cu;
+                    document.getElementById("euro-score-opp").style.color=co;
+                    safeSet("euro-scorers-user",formatScorers(uSc),true);
+                    safeSet("euro-scorers-opp",formatScorers(oSc),true);
+                    _renderMatchStatsEuro(_ems);
+                    ebtn.style.display=""; ebtn.disabled=false;
 
-            } else if (isRitorno) {
-                // Calcola aggregato
-                let l1=gameState.euroLeg1Score||{u:0,o:0};
-                let aggU=l1.u+gU, aggO=l1.o+gO;
-                let aggBox=document.getElementById("euro-aggregate-box");
-                aggBox.classList.remove("hidden");
-                aggBox.innerHTML="Aggregato: "+gameState.teamName+" <strong>"+aggU+"</strong> – <strong>"+aggO+"</strong> "+opp.name;
-                let scoreStr=gU+"-"+gO+" (agg. "+aggU+"-"+aggO+")";
-                // Rimuovi la voce andata dal bracket per sostituirla con il ritorno completo
-                let andataIdx = gameState.euroBracket.findIndex(b=>b.isAndata && b.opp===opp.name);
-                if(andataIdx>=0) gameState.euroBracket.splice(andataIdx,1);
-                // Aggiorna il round name alla fase base (senza Andata/Ritorno)
-                let phaseName = roundName.replace(" - Ritorno","");
-                if(aggU>aggO)      euroAdvance(opp, scoreStr, false);
-                else if(aggU<aggO) euroEliminated(opp, scoreStr);
-                else               startEuroPenalties(opp, phaseName, gU+"-"+gO);
+                    if (isAndata) {
+                        gameState.euroLeg1Score = {u:fU, o:fO};
+                        gameState.euroBracket.push({round:roundName, opp:opp.name, score:fU+"-"+fO, won:true, pen:false, isAndata:true});
+                        renderEuroBracket();
+                        safeSet("euro-result-msg", "<span style='color:var(--accent-gold);'>Andata completata. Si torna per il ritorno.</span>", true);
+                        ebtn.innerText="➡️ Vai al Ritorno";
+                        ebtn.style.cssText="background:linear-gradient(135deg,var(--accent-blue),#2563eb);color:#fff;display:block;opacity:1;padding:14px 20px;border-radius:10px;font-weight:800;font-size:1rem;cursor:pointer;width:100%;border:none;";
+                        ebtn.onclick=null;
+                        ebtn.onclick=function(){ ebtn.disabled=true; gameState.euroRoundIdx++; renderEuroMatch(); };
+                        document.getElementById("euro-penalties-btn").style.display="none";
 
-            } else {
-                // Finale secca
-                if(gU>gO)      euroAdvance(opp, gU+"-"+gO, false);
-                else if(gU<gO) euroEliminated(opp, gU+"-"+gO);
-                else           startEuroPenalties(opp, roundName, gU+"-"+gO);
-            }
+                    } else if (isRitorno) {
+                        let l1=gameState.euroLeg1Score||{u:0,o:0};
+                        let aggU=l1.u+fU, aggO=l1.o+fO;
+                        let aggBox=document.getElementById("euro-aggregate-box");
+                        aggBox.classList.remove("hidden");
+                        aggBox.innerHTML="Aggregato: "+gameState.teamName+" <strong>"+aggU+"</strong> – <strong>"+aggO+"</strong> "+opp.name;
+                        let scoreStr=fU+"-"+fO+" (agg. "+aggU+"-"+aggO+")";
+                        let andataIdx=gameState.euroBracket.findIndex(b=>b.isAndata && b.opp===opp.name);
+                        if(andataIdx>=0) gameState.euroBracket.splice(andataIdx,1);
+                        let phaseName=roundName.replace(" - Ritorno","");
+                        if(aggU>aggO)      euroAdvance(opp, scoreStr, false);
+                        else if(aggU<aggO) euroEliminated(opp, scoreStr);
+                        else               startEuroPenalties(opp, phaseName, fU+"-"+fO);
+
+                    } else {
+                        if(fU>fO)      euroAdvance(opp, fU+"-"+fO, false);
+                        else if(fU<fO) euroEliminated(opp, fU+"-"+fO);
+                        else           startEuroPenalties(opp, roundName, fU+"-"+fO);
+                    }
+                }
+            });
         }
         function euroAdvance(opp,scoreStr,afterPen) {
             let roundName=gameState.euroRounds[gameState.euroRoundIdx];
@@ -4430,7 +4677,7 @@ const playerDatabaseEU = [
                 if (el) {
                     el.classList.remove("active-target"); el.classList.add("filled");
                     let color = getOvrColor(slot.player.ovr);
-                    el.innerHTML = "<div class='slot-ovr' style='color:"+color+"'>"+(gameState.mode==="easy"?slot.player.ovr:"??")+"</div>"
+                    el.innerHTML = "<div class='slot-jersey'>"+slot.id+"</div><div class='slot-ovr' style='color:"+color+"'>"+(gameState.mode==="easy"?slot.player.ovr:"??")+"</div>"
                         + "<div class='slot-name'>"+slot.player.name+"</div>";
                     animateSlotPlace(slot.id);
                 }
@@ -4533,7 +4780,17 @@ const playerDatabaseEU = [
 
         function _showCupRecapOverlay(won, cupWinner, onContinue) {
             let myNames = new Set(gameState.slots.map(s=>s.player?.name).filter(Boolean));
-            let awardsHTML = _buildAwardCards(_enrichStatsWithLeagueTeams(gameState._cupStats||{}), myNames, gameState.teamName, playerDatabase, null);
+            // Usa gol coppa reali + simulazione avversari coppa (NON gol campionato)
+            let cupEnriched = Object.assign({}, gameState._cupStats||{});
+            (gameState.cupOpponents||[]).forEach(function(opp) {
+                let offRoles = ["ATT","AS","AD","TRQ","CC","ES","ED"];
+                let top2 = playerDatabase.filter(p=>p.team+"||"+p.era===opp.id && p.roles&&p.roles.some(r=>offRoles.includes(r))).sort((a,b)=>b.ovr-a.ovr);
+                let g1=Math.floor(Math.random()*3)+2;
+                let g2=Math.floor(Math.random()*2)+1;
+                if(top2[0]){if(!cupEnriched[top2[0].name])cupEnriched[top2[0].name]={goals:0,isUser:false};cupEnriched[top2[0].name].goals=Math.max(cupEnriched[top2[0].name].goals,g1);}
+                if(top2[1]){if(!cupEnriched[top2[1].name])cupEnriched[top2[1].name]={goals:0,isUser:false};cupEnriched[top2[1].name].goals=Math.max(cupEnriched[top2[1].name].goals,g2);}
+            });
+            let awardsHTML = _buildAwardCards(cupEnriched, myNames, gameState.teamName, playerDatabase, null);
 
             let resultColor = won ? "var(--accent-gold)" : "var(--accent-danger)";
             let resultLabel = won ? "🥇 HAI VINTO LA COPPA ITALIA!" : "❌ Eliminati dalla Coppa Italia";
@@ -4577,8 +4834,8 @@ const playerDatabaseEU = [
         function _showEuroRecapOverlay(won, compName, onContinue) {
             let myNames = new Set(gameState.slots.map(s=>s.player?.name).filter(Boolean));
             let euDb = (typeof playerDatabaseEU !== "undefined" && playerDatabaseEU.length) ? playerDatabaseEU : playerDatabase;
-            // Per le europee: arricchisci stats con gol simulati degli avversari EU
-            let _euroEnriched = _enrichStatsWithLeagueTeams(gameState._euroStats||{});
+            // Usa gol europei reali (NON gol campionato da _enrichStatsWithLeagueTeams)
+            let _euroEnriched = Object.assign({}, gameState._euroStats||{});
             // Aggiungi gol simulati per top scorer di ogni avversario EU (se non già aggiunti)
             if (typeof playerDatabaseEU !== "undefined") {
                 (gameState.euroOpponents||[]).forEach(function(opp) {
@@ -4626,7 +4883,7 @@ const playerDatabaseEU = [
                 + "<div style='font-size:0.85rem;color:var(--text-muted);margin-bottom:12px;'>"+turni+" turni superati</div>"
                 + (matchRows ? "<div class='info-box' style='text-align:left;margin-bottom:12px;max-height:200px;overflow-y:auto;padding:8px;'>"+matchRows+"</div>" : "")
                 + awardsHTML
-                + "<button class='btn' style='max-width:260px;margin-top:16px;background:linear-gradient(135deg,"+compColor+","+compColor+"cc);'>"
+                + "<button class='btn' style='max-width:260px;margin-top:16px;color:#fff;background:linear-gradient(135deg,"+compColor+","+compColor+"cc);'>"
                 + (won ? "🎉 Vai al Riepilogo Stagione" : "📊 Vai al Riepilogo Stagione")
                 + "</button>"
                 + "</div>";
